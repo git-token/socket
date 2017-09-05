@@ -3,6 +3,6 @@ const config = require('../config')
 
 const gittoken = new GitTokenSocketClient(config)
 
-gittoken.on('get_contract', (contract) => {
+gittoken.on('data', (contract) => {
   console.log('contract', contract)
 })

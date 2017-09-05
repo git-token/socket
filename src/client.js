@@ -11,8 +11,7 @@ export default class GitTokenSocketClient extends EventEmitter {
     })
 
     this.socket.on('message', (msg) => {
-      const { event, result } = JSON.parse(msg)
-      if (result) { this.emit(event, result) }
+      this.emit('data', msg)
     })
 
     this.socket.on('close', () => {

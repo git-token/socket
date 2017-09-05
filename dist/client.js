@@ -50,16 +50,11 @@ var GitTokenSocketClient = function (_EventEmitter) {
     _this.socket = new _ws2.default(socketUri);
     _this.socket.on('open', function () {
       console.log('Connected to GitToken Socket Server');
+      _this.getContract();
     });
 
     _this.socket.on('message', function (msg) {
-      var _JSON$parse = JSON.parse(msg),
-          event = _JSON$parse.event,
-          result = _JSON$parse.result;
-
-      if (result) {
-        _this.emit(event, result);
-      }
+      _this.emit('data', msg);
     });
 
     _this.socket.on('close', function () {
