@@ -35,9 +35,9 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
     this.queryString = queryString
     this.store = store
 
-    this.unsubscribe = this.store.subscribe(() => {
-      console.log('store', JSON.stringify(this.store.getState(), null, 2))
-    })
+    // this.unsubscribe = this.store.subscribe(() => {
+    //   console.log('store', JSON.stringify(this.store.getState(), null, 2))
+    // })
 
     // Instantiate MySql Connection
     this.mysql = mysql.createConnection({
@@ -64,7 +64,10 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
 		})
 
 		this.server.on('connection', (socket, req) => {
-			socket.on('message', (message) => { this.handleMsg({ socket, message }) })
+			socket.on('message', (message) => {
+        console.log('message', message)
+        this.handleMsg({ socket, message })
+      })
 		})
 
   }

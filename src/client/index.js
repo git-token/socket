@@ -11,7 +11,10 @@ export default class GitTokenSocketClient extends EventEmitter {
     })
 
     this.socket.on('message', (msg) => {
+      // Put an Emit Handler error for subscribing to main events, and specific
+      // organization events
       // Handle Publish / Subscribe manager on incoming messages
+      // Currently emitting everything as 'data' message
       this.emit('data', msg)
     })
 

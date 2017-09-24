@@ -54,7 +54,10 @@ var GitTokenSocketClient = function (_EventEmitter) {
     });
 
     _this.socket.on('message', function (msg) {
+      // Put an Emit Handler error for subscribing to main events, and specific
+      // organization events
       // Handle Publish / Subscribe manager on incoming messages
+      // Currently emitting everything as 'data' message
       _this.emit('data', msg);
     });
 
