@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -36,21 +40,11 @@ var _index = require('gittoken-event-listener/dist/client/index');
 
 var _index2 = _interopRequireDefault(_index);
 
-var _handleMsg = require('./handleMsg');
+var _index3 = require('./utils/index');
 
-var _handleMsg2 = _interopRequireDefault(_handleMsg);
+var _index4 = require('./sql/index');
 
-var _proxyQuery = require('./proxyQuery');
-
-var _proxyQuery2 = _interopRequireDefault(_proxyQuery);
-
-var _queryString = require('./queryString');
-
-var _queryString2 = _interopRequireDefault(_queryString);
-
-var _query = require('./query');
-
-var _query2 = _interopRequireDefault(_query);
+var _index5 = require('./redux/index');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -68,11 +62,16 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (GitTokenSocketServer.__proto__ || (0, _getPrototypeOf2.default)(GitTokenSocketServer)).call(this, { watcherIpcPath: watcherIpcPath }));
 
-    _this.query = _query2.default.bind(_this);
-    _this.handleMsg = _handleMsg2.default.bind(_this);
-    _this.proxyQuery = _proxyQuery2.default.bind(_this);
+    _this.query = _index4.query.bind(_this);
+    _this.handleMsg = _index3.handleMsg.bind(_this);
+    _this.proxyQuery = _index4.proxyQuery.bind(_this);
 
-    _this.queryString = _queryString2.default;
+    _this.queryString = _index4.queryString;
+    _this.store = _index5.store;
+
+    _this.unsubscribe = _this.store.subscribe(function () {
+      console.log('store', (0, _stringify2.default)(_this.store.getState(), null, 2));
+    });
 
     // Instantiate MySql Connection
     _this.mysql = _mysql2.default.createConnection({
@@ -86,9 +85,14 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
       console.log('GitToken Socket Server Started on Port: ', socketPort);
 
       // Listen for contract event listener messages
-      _this.socket.on('data', function (msg) {
-
-        console.log('Incoming Message from Event Listener', JSON.parse(msg.toString('utf8')));
+      _this.socket.on('data', function (_msg) {
+        var msg = JSON.parse(_msg.toString('utf8'));
+        _this.store.dispatch({
+          type: msg['event'],
+          org: msg['data']['organization'],
+          id: msg['data']['transactionHash'],
+          data: msg
+        });
       });
     });
 

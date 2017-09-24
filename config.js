@@ -20,7 +20,8 @@ const config = {
   mysqlHost: process.env['MYSQL_HOST'],
   mysqlUser: process.env['MYSQL_USER'],
   mysqlDatabase: process.env['MYSQL_DATABASE'],
-  mysqlRootPassword: process.env['MYSQL_ROOT_PASSWORD']
+  mysqlRootPassword: process.env['MYSQL_ROOT_PASSWORD'],
+	watcherIpcPath: process.env['WATCHER_IPC_PATH']
 }
 
 module.exports = config

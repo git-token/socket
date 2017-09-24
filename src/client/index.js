@@ -11,6 +11,7 @@ export default class GitTokenSocketClient extends EventEmitter {
     })
 
     this.socket.on('message', (msg) => {
+      // Handle Publish / Subscribe manager on incoming messages
       this.emit('data', msg)
     })
 

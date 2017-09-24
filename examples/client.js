@@ -1,4 +1,4 @@
-const GitTokenSocketClient = require('../dist/client.js').default
+const GitTokenSocketClient = require('../dist/client/index.js').default
 const config = require('../config')
 
 const gittoken = new GitTokenSocketClient(config)
