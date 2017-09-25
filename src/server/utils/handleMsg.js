@@ -14,11 +14,11 @@ export default function handleMsg({ socket, message }) {
 				) {
 					socket.send(JSON.stringify({
 						event: 'watch_token',
-						data: {
+						result: {
 							type: msg['event'],
 							org: msg['data']['organization'],
 							id: msg['data']['transactionHash'],
-							result: msg
+							data: msg
 						}
 					}))
 				}

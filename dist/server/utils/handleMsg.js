@@ -34,11 +34,11 @@ function handleMsg(_ref) {
 				if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
 					socket.send((0, _stringify2.default)({
 						event: 'watch_token',
-						data: {
+						result: {
 							type: msg['event'],
 							org: msg['data']['organization'],
 							id: msg['data']['transactionHash'],
-							result: msg
+							data: msg
 						}
 					}));
 				}
