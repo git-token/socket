@@ -19,7 +19,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var INITIAL_STATE = {
   organizations: {
     'git-token': {
-      Contribution: {}
+      summaryDetails: {},
+      contributionHistory: [],
+      leaderBoard: [],
+      contributionFrequency: [],
+      supplyGrowth: [],
+      milestones: [],
+      auctions: []
     }
   }
 };
@@ -27,15 +33,11 @@ var INITIAL_STATE = {
 function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
   var action = arguments[1];
-  var org = action.org,
-      id = action.id,
-      data = action.data,
-      type = action.type;
 
-  switch (type != null && org != null && id != null) {
-    case true:
+  switch (action.type) {
+    case 'WATCH_TOKEN':
       return (0, _extends6.default)({}, state, {
-        organizations: (0, _extends6.default)({}, state['organizations'], (0, _defineProperty3.default)({}, org, (0, _extends6.default)({}, state['organizations'][org], (0, _defineProperty3.default)({}, type, (0, _extends6.default)({}, state['organizations'][org][type], (0, _defineProperty3.default)({}, id, data))))))
+        organizations: (0, _extends6.default)({}, state['organizations'], (0, _defineProperty3.default)({}, action.org, (0, _extends6.default)({}, state['organizations'][action.org], (0, _defineProperty3.default)({}, action.event, (0, _extends6.default)({}, state['organizations'][action.org][action.event], (0, _defineProperty3.default)({}, action.id, action.data))))))
       });
       break;
     default:

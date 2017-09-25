@@ -8,8 +8,8 @@ Object.defineProperty(exports, "__esModule", {
 
 
 var queryString = {
-  get_contract: get_contract,
-  get_registered: get_registered
+  GET_CONTRACT: get_contract,
+  GET_REGISTERED: get_registered
 };
 
 exports.default = queryString;

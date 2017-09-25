@@ -1,9 +1,9 @@
 import WebSocket from 'ws'
 
 export default function handleMsg({ socket, message }) {
-	const { event, data } = JSON.parse(message)
-	switch(event) {
-		case 'watch_token':
+	const { type, data } = JSON.parse(message)
+	switch(type.toUpperCase()) {
+		case 'WATCH_TOKEN':
 			const { organization } = data
 			this.contractEventListener.write(message)
 			this.contractEventListener.on('data', (_msg) => {
@@ -13,9 +13,9 @@ export default function handleMsg({ socket, message }) {
 					socket.readyState === WebSocket.OPEN
 				) {
 					socket.send(JSON.stringify({
-						event: 'watch_token',
+						type: 'WATCH_TOKEN',
 						result: {
-							type: msg['event'],
+							event: msg['event'],
 							org: msg['data']['organization'],
 							id: msg['data']['transactionHash'],
 							data: msg
@@ -24,17 +24,17 @@ export default function handleMsg({ socket, message }) {
 				}
 			})
 			break;
-		case 'get_registered':
+		case 'GET_REGISTERED':
 			this.proxyQuery({
-				queryString: this.queryString[event],
-				event,
+				queryString: this.queryString[type],
+				type,
 				socket
 			})
 			break;
 		default:
 			socket.send(JSON.stringify({
-				event: 'error',
-				message: `${event} is an invalid event.`
+				type: 'error',
+				result: `${event} is an invalid event.`
 			}))
 			return null
 	}

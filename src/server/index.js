@@ -53,8 +53,10 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
       // Listen for contract event listener messages;
       this.contractEventListener.on('data', (_msg) => {
         const msg = JSON.parse(_msg.toString('utf8'))
+        // console.log('msg', msg)
         this.store.dispatch({
-          type: msg['event'],
+          type: 'WATCH_TOKEN',
+          event: msg['event'],
           org: msg['data']['organization'],
           id: msg['data']['transactionHash'],
           data: msg

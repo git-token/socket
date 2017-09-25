@@ -21,11 +21,11 @@ function handleMsg(_ref) {
 	    message = _ref.message;
 
 	var _JSON$parse = JSON.parse(message),
-	    event = _JSON$parse.event,
+	    type = _JSON$parse.type,
 	    data = _JSON$parse.data;
 
-	switch (event) {
-		case 'watch_token':
+	switch (type.toUpperCase()) {
+		case 'WATCH_TOKEN':
 			var organization = data.organization;
 
 			this.contractEventListener.write(message);
@@ -33,9 +33,9 @@ function handleMsg(_ref) {
 				var msg = JSON.parse(_msg.toString('utf8'));
 				if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
 					socket.send((0, _stringify2.default)({
-						event: 'watch_token',
+						type: 'WATCH_TOKEN',
 						result: {
-							type: msg['event'],
+							event: msg['event'],
 							org: msg['data']['organization'],
 							id: msg['data']['transactionHash'],
 							data: msg
@@ -44,17 +44,17 @@ function handleMsg(_ref) {
 				}
 			});
 			break;
-		case 'get_registered':
+		case 'GET_REGISTERED':
 			this.proxyQuery({
-				queryString: this.queryString[event],
-				event: event,
+				queryString: this.queryString[type],
+				type: type,
 				socket: socket
 			});
 			break;
 		default:
 			socket.send((0, _stringify2.default)({
-				event: 'error',
-				message: event + ' is an invalid event.'
+				type: 'error',
+				result: event + ' is an invalid event.'
 			}));
 			return null;
 	}

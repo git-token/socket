@@ -49,8 +49,7 @@ var GitTokenSocketClient = function (_EventEmitter) {
 
     _this.socket = new _ws2.default(socketUri);
     _this.socket.on('open', function () {
-      console.log('Connected to GitToken Socket Server');
-      _this.emit('connect');
+      _this.emit('connect', 'Connected to GitToken WebSocket Server');
     });
 
     _this.socket.on('message', function (msg) {
