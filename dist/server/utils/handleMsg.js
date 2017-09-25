@@ -33,7 +33,7 @@ function handleMsg(_ref) {
 				var msg = JSON.parse(_msg.toString('utf8'));
 				if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
 					socket.send((0, _stringify2.default)({
-						event: event,
+						event: 'watch_token',
 						data: {
 							type: msg['event'],
 							org: msg['data']['organization'],

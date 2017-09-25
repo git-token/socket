@@ -13,7 +13,7 @@ export default function handleMsg({ socket, message }) {
 					socket.readyState === WebSocket.OPEN
 				) {
 					socket.send(JSON.stringify({
-						event,
+						event: 'watch_token',
 						data: {
 							type: msg['event'],
 							org: msg['data']['organization'],
