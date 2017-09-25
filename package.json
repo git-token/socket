@@ -1,6 +1,6 @@
 {
   "name": "gittoken-socket",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "GitToken Socket Server and Client Libraries",
   "main": "./dist/index.js",
   "scripts": {
@@ -31,7 +31,7 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "dotenv": "^4.0.0",
-    "gittoken-event-listener": "0.0.4",
+    "gittoken-event-listener": "0.0.5",
     "mysql": "^2.14.1",
     "redux": "^3.7.2",
     "ws": "^3.1.0"
