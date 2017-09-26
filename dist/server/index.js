@@ -86,16 +86,20 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
 
       // Listen for contract event listener messages;
       _this.contractEventListener.on('data', function (_msg) {
-        console.log('_msg', _msg);
-        var msg = JSON.parse(_msg.toString('utf8'));
-        // console.log('msg', msg)
-        _this.store.dispatch({
-          type: 'WATCH_TOKEN',
-          event: msg['event'],
-          org: msg['data']['organization'],
-          id: msg['data']['transactionHash'],
-          data: msg
-        });
+        var msg = void 0;
+        try {
+          msg = JSON.parse(_msg.toString('utf8'));
+          _this.store.dispatch({
+            type: 'WATCH_TOKEN',
+            event: msg['event'],
+            org: msg['data']['organization'],
+            id: msg['data']['transactionHash'],
+            data: msg
+          });
+        } catch (error) {
+          console.error(error);
+          console.log('msg', msg);
+        }
       });
 
       var unsubscribe = _this.store.subscribe(function () {
