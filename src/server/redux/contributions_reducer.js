@@ -1,30 +1,38 @@
 const INITIAL_STATE = {
   organizations: {
-    Contribution: {}
-  }
-}
-
-function updateContributions(state, action) {
-  const { org, id, data } = action
-  return {
-    ...state,
-    organizations: {
-      ...state['organizations'],
-      Contribution: {
-        ...state['organizations']['Contribution'],
-        [org]: {
-          ...state['organizations']['Contribution'][org],
-          [id]: data
-        }
-      }
+    'git-token': {
+      summaryDetails: {},
+      contributionHistory: [],
+      leaderBoard: [],
+      contributionFrequency: [],
+      supplyGrowth: [],
+      milestones: [],
+      auctions: []
     }
   }
 }
 
 export default function reducer(state=INITIAL_STATE, action) {
   switch(action.type) {
-    case 'Contribution':
-      return updateContributions(state, action)
+    case 'WATCH_TOKEN':
+
+      state['organizations'][action.org] =
+        !state['organizations'][action.org] ? {} :
+        state['organizations'][action.org]
+
+      return {
+        ...state,
+        organizations: {
+          ...state['organizations'],
+          [action.org]: {
+            ...state['organizations'][action.org],
+            [action.event]: {
+              ...state['organizations'][action.org][action.event],
+              [action.id]: action.data
+            }
+          }
+        }
+      }
       break;
     default:
       return state

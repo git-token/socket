@@ -8,9 +8,9 @@ var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
-var _extends4 = require('babel-runtime/helpers/extends');
+var _extends5 = require('babel-runtime/helpers/extends');
 
-var _extends5 = _interopRequireDefault(_extends4);
+var _extends6 = _interopRequireDefault(_extends5);
 
 exports.default = reducer;
 
@@ -18,29 +18,30 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var INITIAL_STATE = {
   organizations: {
-    Contribution: {}
+    'git-token': {
+      summaryDetails: {},
+      contributionHistory: [],
+      leaderBoard: [],
+      contributionFrequency: [],
+      supplyGrowth: [],
+      milestones: [],
+      auctions: []
+    }
   }
 };
-
-function updateContributions(state, action) {
-  var org = action.org,
-      id = action.id,
-      data = action.data;
-
-  return (0, _extends5.default)({}, state, {
-    organizations: (0, _extends5.default)({}, state['organizations'], {
-      Contribution: (0, _extends5.default)({}, state['organizations']['Contribution'], (0, _defineProperty3.default)({}, org, (0, _extends5.default)({}, state['organizations']['Contribution'][org], (0, _defineProperty3.default)({}, id, data))))
-    })
-  });
-}
 
 function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
   var action = arguments[1];
 
   switch (action.type) {
-    case 'Contribution':
-      return updateContributions(state, action);
+    case 'WATCH_TOKEN':
+
+      state['organizations'][action.org] = !state['organizations'][action.org] ? {} : state['organizations'][action.org];
+
+      return (0, _extends6.default)({}, state, {
+        organizations: (0, _extends6.default)({}, state['organizations'], (0, _defineProperty3.default)({}, action.org, (0, _extends6.default)({}, state['organizations'][action.org], (0, _defineProperty3.default)({}, action.event, (0, _extends6.default)({}, state['organizations'][action.org][action.event], (0, _defineProperty3.default)({}, action.id, action.data))))))
+      });
       break;
     default:
       return state;

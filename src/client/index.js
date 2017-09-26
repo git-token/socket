@@ -6,8 +6,7 @@ export default class GitTokenSocketClient extends EventEmitter {
     super()
     this.socket = new Websocket(socketUri)
     this.socket.on('open', () => {
-      console.log('Connected to GitToken Socket Server')
-      this.emit('connect')
+      this.emit('connect', 'Connected to GitToken WebSocket Server')
     })
 
     this.socket.on('message', (msg) => {

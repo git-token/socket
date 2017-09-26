@@ -1,7 +1,7 @@
-export default function proxyQuery({ event, socket, queryString }) {
+export default function proxyQuery({ type, socket, queryString }) {
   this.query({ queryString }).then((result) => {
-    socket.send(JSON.stringify({ event,  result }))
+    socket.send(JSON.stringify({ type,  result }))
   }).catch((error) => {
-    socket.send(JSON.stringify({ event: 'error', result: error.message }))
+    socket.send(JSON.stringify({ type: 'error', result: error.message }))
   })
 }

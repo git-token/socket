@@ -10,6 +10,10 @@ var _stringify2 = _interopRequireDefault(_stringify);
 
 exports.default = handleMsg;
 
+var _ws = require('ws');
+
+var _ws2 = _interopRequireDefault(_ws);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function handleMsg(_ref) {
@@ -17,16 +21,39 @@ function handleMsg(_ref) {
 	    message = _ref.message;
 
 	var _JSON$parse = JSON.parse(message),
-	    event = _JSON$parse.event;
+	    type = _JSON$parse.type,
+	    data = _JSON$parse.data;
 
-	var queryString = this.queryString[event];
+	switch (type.toUpperCase()) {
+		case 'WATCH_TOKEN':
+			var organization = data.organization;
 
-	if (!queryString) {
-		socket.send((0, _stringify2.default)({
-			event: 'error',
-			message: event + ' is an invalid event.'
-		}));
-	} else {
-		this.proxyQuery({ queryString: queryString, event: event, socket: socket });
+			this.contractEventListener.write(message);
+			this.contractEventListener.on('data', function (_msg) {
+				var msg = JSON.parse(_msg.toString('utf8'));
+				if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
+					socket.send((0, _stringify2.default)({
+						type: 'WATCH_TOKEN',
+						event: msg['event'],
+						org: msg['data']['organization'],
+						id: msg['data']['transactionHash'],
+						data: msg
+					}));
+				}
+			});
+			break;
+		case 'GET_REGISTERED':
+			this.proxyQuery({
+				queryString: this.queryString[type],
+				type: type,
+				socket: socket
+			});
+			break;
+		default:
+			socket.send((0, _stringify2.default)({
+				type: 'error',
+				result: event + ' is an invalid event.'
+			}));
+			return null;
 	}
 }

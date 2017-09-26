@@ -1,1 +1,1 @@
-SELECT * FROM registered;
+SELECT * FROM registry;

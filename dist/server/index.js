@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -80,21 +84,26 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
     _this.server = new _ws2.default.Server({ port: socketPort }, function () {
       console.log('GitToken Socket Server Started on Port: ', socketPort);
 
-      // Listen for contract event listener messages
-      _this.socket.on('data', function (_msg) {
+      // Listen for contract event listener messages;
+      _this.contractEventListener.on('data', function (_msg) {
         var msg = JSON.parse(_msg.toString('utf8'));
+        console.log('msg', msg);
         _this.store.dispatch({
-          type: msg['event'],
+          type: 'WATCH_TOKEN',
+          event: msg['event'],
           org: msg['data']['organization'],
           id: msg['data']['transactionHash'],
           data: msg
         });
       });
+
+      var unsubscribe = _this.store.subscribe(function () {
+        console.log('State: ', (0, _stringify2.default)(_this.store.getState(), null, 2));
+      });
     });
 
     _this.server.on('connection', function (socket, req) {
       socket.on('message', function (message) {
-        console.log('message', message);
         _this.handleMsg({ socket: socket, message: message });
       });
     });
