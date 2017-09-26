@@ -1,6 +1,7 @@
 import Promise from 'bluebird'
 import WebSocket from 'ws'
 import mysql from 'mysql'
+import split from 'split'
 
 import GitTokenEventWatcherClient  from 'gittoken-event-listener/dist/client/index'
 
@@ -51,7 +52,7 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
 			console.log('GitToken Socket Server Started on Port: ', socketPort)
 
       // Listen for contract event listener messages;
-      this.contractEventListener.on('data', (_msg) => {
+      this.contractEventListener.pipe(split(JSON.parse)).on('data', (_msg) => {
         let msg;
         try {
           msg = JSON.parse(_msg.toString('utf8'))

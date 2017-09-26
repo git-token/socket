@@ -36,6 +36,10 @@ var _mysql = require('mysql');
 
 var _mysql2 = _interopRequireDefault(_mysql);
 
+var _split = require('split');
+
+var _split2 = _interopRequireDefault(_split);
+
 var _index = require('gittoken-event-listener/dist/client/index');
 
 var _index2 = _interopRequireDefault(_index);
@@ -85,7 +89,7 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
       console.log('GitToken Socket Server Started on Port: ', socketPort);
 
       // Listen for contract event listener messages;
-      _this.contractEventListener.on('data', function (_msg) {
+      _this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (_msg) {
         var msg = void 0;
         try {
           msg = JSON.parse(_msg.toString('utf8'));

@@ -14,6 +14,10 @@ var _ws = require('ws');
 
 var _ws2 = _interopRequireDefault(_ws);
 
+var _split = require('split');
+
+var _split2 = _interopRequireDefault(_split);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function handleMsg(_ref) {
@@ -29,7 +33,7 @@ function handleMsg(_ref) {
 			var organization = data.organization;
 
 			this.contractEventListener.write(message);
-			this.contractEventListener.on('data', function (_msg) {
+			this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (_msg) {
 				var msg = void 0;
 				try {
 					msg = JSON.parse(_msg.toString('utf8'));
@@ -45,6 +49,7 @@ function handleMsg(_ref) {
 				} catch (error) {
 					console.error(error);
 					console.log('msg', msg);
+					console.log(_msg.toString('utf8'));
 				}
 			});
 			break;
