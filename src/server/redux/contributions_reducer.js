@@ -1,15 +1,5 @@
 const INITIAL_STATE = {
-  organizations: {
-    'git-token': {
-      summaryDetails: {},
-      contributionHistory: [],
-      leaderBoard: [],
-      contributionFrequency: [],
-      supplyGrowth: [],
-      milestones: [],
-      auctions: []
-    }
-  }
+  organizations: {}
 }
 
 export default function reducer(state=INITIAL_STATE, action) {

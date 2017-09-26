@@ -6,7 +6,19 @@ export default function handleMsg({ socket, message }) {
 	switch(type.toUpperCase()) {
 		case 'WATCH_TOKEN':
 			const { organization } = data
-			this.contractEventListener.write(message)
+			const orgData = this.store.getState()['organizations'][organization]
+
+			// Attempt to send cached data before watching the token
+			if(orgData != null) {
+				socket.send(JSON.stringify({
+					type: 'ORGANIZATION_DATA',
+					org: organization,
+					data: orgData
+				}))
+			} else {
+				this.contractEventListener.write(message)
+			}
+
 			this.contractEventListener.pipe(split(JSON.parse)).on('data', (msg) => {
 				try {
 					if (
@@ -25,8 +37,8 @@ export default function handleMsg({ socket, message }) {
 					console.error(error)
 					console.log('msg', msg)
 				}
-
 			})
+			
 			break;
 		case 'GET_REGISTERED':
 			this.proxyQuery({

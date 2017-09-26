@@ -17,17 +17,7 @@ exports.default = reducer;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = {
-  organizations: {
-    'git-token': {
-      summaryDetails: {},
-      contributionHistory: [],
-      leaderBoard: [],
-      contributionFrequency: [],
-      supplyGrowth: [],
-      milestones: [],
-      auctions: []
-    }
-  }
+  organizations: {}
 };
 
 function reducer() {

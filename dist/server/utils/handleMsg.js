@@ -32,7 +32,19 @@ function handleMsg(_ref) {
 		case 'WATCH_TOKEN':
 			var organization = data.organization;
 
-			this.contractEventListener.write(message);
+			var orgData = this.store.getState()['organizations'][organization];
+
+			// Attempt to send cached data before watching the token
+			if (orgData != null) {
+				socket.send((0, _stringify2.default)({
+					type: 'ORGANIZATION_DATA',
+					org: organization,
+					data: orgData
+				}));
+			} else {
+				this.contractEventListener.write(message);
+			}
+
 			this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (msg) {
 				try {
 					if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
@@ -49,6 +61,7 @@ function handleMsg(_ref) {
 					console.log('msg', msg);
 				}
 			});
+
 			break;
 		case 'GET_REGISTERED':
 			this.proxyQuery({
