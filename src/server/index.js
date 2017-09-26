@@ -52,10 +52,8 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
 			console.log('GitToken Socket Server Started on Port: ', socketPort)
 
       // Listen for contract event listener messages;
-      this.contractEventListener.pipe(split(JSON.parse)).on('data', (_msg) => {
-        let msg;
+      this.contractEventListener.pipe(split(JSON.parse)).on('data', (msg) => {
         try {
-          msg = JSON.parse(_msg.toString('utf8'))
           this.store.dispatch({
             type: 'WATCH_TOKEN',
             event: msg['event'],
@@ -66,7 +64,6 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
         } catch(error) {
           console.error(error)
           console.log('msg', msg)
-          console.log(_msg.toString('utf8'))
         }
 
       })

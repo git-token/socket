@@ -33,10 +33,8 @@ function handleMsg(_ref) {
 			var organization = data.organization;
 
 			this.contractEventListener.write(message);
-			this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (_msg) {
-				var msg = void 0;
+			this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (msg) {
 				try {
-					msg = JSON.parse(_msg.toString('utf8'));
 					if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
 						socket.send((0, _stringify2.default)({
 							type: 'WATCH_TOKEN',
@@ -49,7 +47,6 @@ function handleMsg(_ref) {
 				} catch (error) {
 					console.error(error);
 					console.log('msg', msg);
-					console.log(_msg.toString('utf8'));
 				}
 			});
 			break;

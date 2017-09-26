@@ -1,6 +1,6 @@
 {
   "name": "gittoken-socket",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "GitToken Socket Server and Client Libraries",
   "main": "./dist/index.js",
   "scripts": {

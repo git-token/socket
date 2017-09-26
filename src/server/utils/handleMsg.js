@@ -7,10 +7,8 @@ export default function handleMsg({ socket, message }) {
 		case 'WATCH_TOKEN':
 			const { organization } = data
 			this.contractEventListener.write(message)
-			this.contractEventListener.pipe(split(JSON.parse)).on('data', (_msg) => {
-				let msg
+			this.contractEventListener.pipe(split(JSON.parse)).on('data', (msg) => {
 				try {
-					msg = JSON.parse(_msg.toString('utf8'))
 					if (
 						organization == msg['data']['organization'] &&
 						socket.readyState === WebSocket.OPEN
@@ -26,7 +24,6 @@ export default function handleMsg({ socket, message }) {
 				} catch(error) {
 					console.error(error)
 					console.log('msg', msg)
-					console.log(_msg.toString('utf8'))
 				}
 
 			})

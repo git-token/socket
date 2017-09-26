@@ -89,10 +89,8 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
       console.log('GitToken Socket Server Started on Port: ', socketPort);
 
       // Listen for contract event listener messages;
-      _this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (_msg) {
-        var msg = void 0;
+      _this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (msg) {
         try {
-          msg = JSON.parse(_msg.toString('utf8'));
           _this.store.dispatch({
             type: 'WATCH_TOKEN',
             event: msg['event'],
@@ -103,7 +101,6 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
         } catch (error) {
           console.error(error);
           console.log('msg', msg);
-          console.log(_msg.toString('utf8'));
         }
       });
 
