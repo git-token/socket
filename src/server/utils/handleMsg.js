@@ -7,19 +7,26 @@ export default function handleMsg({ socket, message }) {
 			const { organization } = data
 			this.contractEventListener.write(message)
 			this.contractEventListener.on('data', (_msg) => {
-				const msg = JSON.parse(_msg.toString('utf8'))
-				if (
-					organization == msg['data']['organization'] &&
-					socket.readyState === WebSocket.OPEN
-				) {
-					socket.send(JSON.stringify({
-						type: 'WATCH_TOKEN',
-						event: msg['event'],
-						org: msg['data']['organization'],
-						id: msg['data']['transactionHash'],
-						data: msg
-					}))
+				let msg
+				try {
+					msg = JSON.parse(_msg.toString('utf8'))
+					if (
+						organization == msg['data']['organization'] &&
+						socket.readyState === WebSocket.OPEN
+					) {
+						socket.send(JSON.stringify({
+							type: 'WATCH_TOKEN',
+							event: msg['event'],
+							org: msg['data']['organization'],
+							id: msg['data']['transactionHash'],
+							data: msg
+						}))
+					}
+				} catch(error) {
+					console.error(error)
+					console.log('msg', msg)
 				}
+
 			})
 			break;
 		case 'GET_REGISTERED':

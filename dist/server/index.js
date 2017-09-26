@@ -99,6 +99,7 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
         } catch (error) {
           console.error(error);
           console.log('msg', msg);
+          console.log(_msg.toString('utf8'));
         }
       });
 
