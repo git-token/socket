@@ -87,7 +87,7 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
       // Listen for contract event listener messages;
       _this.contractEventListener.on('data', function (_msg) {
         var msg = JSON.parse(_msg.toString('utf8'));
-        // console.log('msg', msg)
+        console.log('msg', msg);
         _this.store.dispatch({
           type: 'WATCH_TOKEN',
           event: msg['event'],

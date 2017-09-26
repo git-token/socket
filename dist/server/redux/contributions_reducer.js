@@ -36,6 +36,9 @@ function reducer() {
 
   switch (action.type) {
     case 'WATCH_TOKEN':
+
+      state['organizations'][action.org] = !state['organizations'][action.org] ? {} : state['organizations'][action.org];
+
       return (0, _extends6.default)({}, state, {
         organizations: (0, _extends6.default)({}, state['organizations'], (0, _defineProperty3.default)({}, action.org, (0, _extends6.default)({}, state['organizations'][action.org], (0, _defineProperty3.default)({}, action.event, (0, _extends6.default)({}, state['organizations'][action.org][action.event], (0, _defineProperty3.default)({}, action.id, action.data))))))
       });
