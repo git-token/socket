@@ -105,6 +105,7 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
       });
 
       var unsubscribe = _this.store.subscribe(function () {
+        // Subscribe to state updates
         console.log('State: ', (0, _stringify2.default)(_this.store.getState(), null, 2));
         // send updates back to
       });
@@ -115,7 +116,6 @@ var GitTokenSocketServer = function (_GitTokenEventWatcher) {
         _this.handleMsg({ socket: socket, message: message });
       });
     });
-
     return _this;
   }
 

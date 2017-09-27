@@ -30,7 +30,7 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
   }) {
     super({ watcherIpcPath })
     this.query       = query.bind(this)
-		this.handleMsg   = handleMsg.bind(this)
+    this.handleMsg   = handleMsg.bind(this)
     this.proxyQuery  = proxyQuery.bind(this)
 
     this.queryString = queryString
@@ -48,8 +48,8 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
       database: mysqlDatabase,
     })
 
-		this.server = new WebSocket.Server({ port: socketPort }, () => {
-			console.log('GitToken Socket Server Started on Port: ', socketPort)
+    this.server = new WebSocket.Server({ port: socketPort }, () => {
+      console.log('GitToken Socket Server Started on Port: ', socketPort)
 
       // Listen for contract event listener messages;
       this.eventListener.pipe(split(JSON.parse)).on('data', (msg) => {
@@ -69,20 +69,17 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
       })
 
       const unsubscribe = this.store.subscribe(() => {
+        // Subscribe to state updates
         console.log('State: ', JSON.stringify(this.store.getState(), null, 2))
         // send updates back to
       })
+    })
 
-		})
-
-		this.server.on('connection', (socket, req) => {
-			socket.on('message', (message) => {
+    this.server.on('connection', (socket, req) => {
+      socket.on('message', (message) => {
         this.handleMsg({ socket, message })
       })
-		})
-
+    })
   }
-
-
 
 }
