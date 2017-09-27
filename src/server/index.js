@@ -52,7 +52,7 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
 			console.log('GitToken Socket Server Started on Port: ', socketPort)
 
       // Listen for contract event listener messages;
-      this.contractEventListener.pipe(split(JSON.parse)).on('data', (msg) => {
+      this.eventListener.pipe(split(JSON.parse)).on('data', (msg) => {
         try {
           this.store.dispatch({
             type: 'WATCH_TOKEN',
@@ -70,6 +70,7 @@ export default class GitTokenSocketServer extends GitTokenEventWatcherClient {
 
       const unsubscribe = this.store.subscribe(() => {
         console.log('State: ', JSON.stringify(this.store.getState(), null, 2))
+        // send updates back to
       })
 
 		})

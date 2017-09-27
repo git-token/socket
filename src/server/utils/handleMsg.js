@@ -8,6 +8,8 @@ export default function handleMsg({ socket, message }) {
 			const { organization } = data
 			const orgData = this.store.getState()['organizations'][organization]
 
+			console.log('orgData', orgData)
+
 			// Attempt to send cached data before watching the token
 			if(orgData != null) {
 				socket.send(JSON.stringify({
@@ -16,10 +18,10 @@ export default function handleMsg({ socket, message }) {
 					data: orgData
 				}))
 			} else {
-				this.contractEventListener.write(message)
+				this.eventListener.write(message)
 			}
 
-			this.contractEventListener.pipe(split(JSON.parse)).on('data', (msg) => {
+			this.eventListener.pipe(split(JSON.parse)).on('data', (msg) => {
 				try {
 					if (
 						organization == msg['data']['organization'] &&
@@ -35,10 +37,9 @@ export default function handleMsg({ socket, message }) {
 					}
 				} catch(error) {
 					console.error(error)
-					console.log('msg', msg)
 				}
 			})
-			
+
 			break;
 		case 'GET_REGISTERED':
 			this.proxyQuery({

@@ -34,6 +34,8 @@ function handleMsg(_ref) {
 
 			var orgData = this.store.getState()['organizations'][organization];
 
+			console.log('orgData', orgData);
+
 			// Attempt to send cached data before watching the token
 			if (orgData != null) {
 				socket.send((0, _stringify2.default)({
@@ -42,10 +44,10 @@ function handleMsg(_ref) {
 					data: orgData
 				}));
 			} else {
-				this.contractEventListener.write(message);
+				this.eventListener.write(message);
 			}
 
-			this.contractEventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (msg) {
+			this.eventListener.pipe((0, _split2.default)(JSON.parse)).on('data', function (msg) {
 				try {
 					if (organization == msg['data']['organization'] && socket.readyState === _ws2.default.OPEN) {
 						socket.send((0, _stringify2.default)({
@@ -58,7 +60,6 @@ function handleMsg(_ref) {
 					}
 				} catch (error) {
 					console.error(error);
-					console.log('msg', msg);
 				}
 			});
 
